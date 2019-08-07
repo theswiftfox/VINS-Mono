@@ -9,6 +9,7 @@ ros::Publisher pub_key_poses;
 ros::Publisher pub_relo_relative_pose;
 ros::Publisher pub_camera_pose;
 ros::Publisher pub_camera_pose_visual;
+ros::Publisher pub_transform;
 nav_msgs::Path path, relo_path;
 
 ros::Publisher pub_keyframe_pose;
@@ -31,6 +32,7 @@ void registerPub(ros::NodeHandle &n)
     pub_key_poses = n.advertise<visualization_msgs::Marker>("key_poses", 1000);
     pub_camera_pose = n.advertise<nav_msgs::Odometry>("camera_pose", 1000);
     pub_camera_pose_visual = n.advertise<visualization_msgs::MarkerArray>("camera_pose_visual", 1000);
+    pub_transform = n.advertise<geometry_msgs::TransformStamped>("transform", 1000);
     pub_keyframe_pose = n.advertise<nav_msgs::Odometry>("keyframe_pose", 1000);
     pub_keyframe_point = n.advertise<sensor_msgs::PointCloud>("keyframe_point", 1000);
     pub_extrinsic = n.advertise<nav_msgs::Odometry>("extrinsic", 1000);
@@ -229,6 +231,18 @@ void pubCameraPose(const Estimator &estimator, const std_msgs::Header &header)
         odometry.pose.pose.orientation.w = R.w();
 
         pub_camera_pose.publish(odometry);
+
+        geometry_msgs::TransformStamped transform;
+        transform.header = header;
+        transform.header.frame_id = "world";
+        transform.transform.translation.x = P.x();
+        transform.transform.translation.y = P.y();
+        transform.transform.translation.z = P.z();
+        transform.transform.rotation.x = R.x();
+        transform.transform.rotation.y = R.y();
+        transform.transform.rotation.z = R.z();
+        transform.transform.rotation.w = R.w();
+        pub_transform.publish(transform);
 
         cameraposevisual.reset();
         cameraposevisual.add_pose(P, R);
