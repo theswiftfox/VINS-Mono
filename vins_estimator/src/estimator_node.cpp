@@ -108,6 +108,7 @@ getMeasurements()
         if (!(imu_buf.back()->header.stamp.toSec() > feature_buf.front()->header.stamp.toSec() + estimator.td))
         {
             ROS_WARN("wait for imu, only should happen at the beginning");
+            ROS_WARN("Imu stamp %f; img stamp %f + %f", imu_buf.back()->header.stamp.toSec(), feature_buf.front()->header.stamp.toSec(), estimator.td);
             sum_of_wait++;
             return measurements;
         }

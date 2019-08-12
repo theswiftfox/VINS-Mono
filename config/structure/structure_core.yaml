@@ -11,8 +11,10 @@ camera_name: camera
 image_width: 640
 image_height: 480
 distortion_parameters:
-   k1: -0.25250399112701416
-   k2: 0.05881829932332039
+#   k1: -0.25250399112701416
+ #  k2: 0.05881829932332039
+   k1: 0
+   k2: 0
    p1: 0
    p2: 0
 projection_parameters:
@@ -27,20 +29,22 @@ estimate_extrinsic: 2   # 0  Have an accurate extrinsic parameters. We will trus
                         # 2  Don't know anything about extrinsic parameters. You don't need to give R,T. We will try to calibrate it. Do some rotation movement at beginning.                        
 #If you choose 0 or 1, you should write down the following matrix.
 #Rotation from camera frame to imu frame, imu^R_cam
-extrinsicRotation: !!opencv-matrix
-   rows: 3
-   cols: 3
-   dt: d
-   data: [  0.999727,0.02266,0.005654,
-            -0.0226812,0.999736,0.00370563,
-            -0.00556854,-0.00383286,0.999977
-         ]
-#Translation from camera frame to imu frame, imu^T_cam
-extrinsicTranslation: !!opencv-matrix
-   rows: 3
-   cols: 1
-   dt: d
-   data: [-0.00941372, -0.0053684, -0.0118019]
+#  R = [179.656774 | -0.706534 0.707678 -0.001277](-179.653933 0.139497 -90.092292) T = [-0.008029 0.014950 -0.011083] 
+#  R = [180.743348 | 0.710395 -0.703727 0.010402](-178.632984 -0.323662 -89.463505) T = [-0.007859 -0.006163 -0.008607]
+# extrinsicRotation: !!opencv-matrix
+#    rows: 3
+#    cols: 3
+#    dt: d
+#    data: [  0.999727,0.02266,0.005654,
+#             -0.0226812,0.999736,0.00370563,
+#             -0.00556854,-0.00383286,0.999977
+#          ]
+# #Translation from camera frame to imu frame, imu^T_cam
+# extrinsicTranslation: !!opencv-matrix
+#    rows: 3
+#    cols: 1
+#    dt: d
+#    data: [-0.008029, 0.014950, -0.011083]
 
 #feature tracker paprameters
 max_cnt: 50            # max feature number in feature tracking
